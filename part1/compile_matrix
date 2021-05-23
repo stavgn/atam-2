@@ -1,0 +1,5 @@
+rm *.o
+rm *.out
+as matrix.asm -o matrix.o
+gcc main.c matrix.o -o main.out
+./main.out
