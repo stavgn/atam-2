@@ -1,3 +1,4 @@
+.extern old_ili_handler
 .globl my_ili_handler
 
 .text
