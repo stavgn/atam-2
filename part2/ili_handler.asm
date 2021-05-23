@@ -17,30 +17,29 @@ my_ili_handler:
 continue:  
       pushq %rdx # back up registers
       pushq %rcx
-      pushq %r8
-      pushq %r9
-      pushq %r10
       pushq %r11
-       
+      pushq %r10
+      pushq %r9
+      pushq %r8
+     
       call what_to_do
-       
-      popq %r11 # restore registers
-      popq %r10
-      popq %r9
-      popq %r8
+      popq %r8 # restore registers   
+      popq %r9 
+      popq %r10            
+      popq %r11 
       popq %rcx
       popq %rdx
        
        cmpl $0, %eax
-       jne my_handler
-       popq %rsi #to get 1/2 out of the stack
-       popq %rsi #restore rsi
-       popq %rax #restore rax
-       popq %rdi #restore rdi
+       jne not_0
+       popq %rsi # restore continue
+       popq %rsi 
+       popq %rax 
+       popq %rdi 
        leave
        jmp *old_ili_handler #goto the original routine
 
-my_handler:
+not_0:
        popq %rdi # need to know if to move 1 or 2 bytes
        addq %rdi, 8(%rbp) # rip <- rip + inst_len
        movq %rax, %rdi
@@ -48,10 +47,7 @@ my_handler:
        popq %rsi #restore rsi
        popq %rax #restore rax
        leave
-       
-
        iretq
-
 
  two_bytes_strategy:
        pushq $2 # the opcoed is 2 byte
